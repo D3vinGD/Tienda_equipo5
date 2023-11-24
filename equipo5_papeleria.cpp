@@ -1,5 +1,10 @@
+// IMPORTANTE LEER!!!!
+/* 
+Maestra al momento de hacer el proyecto nos confundimos de equipo, nos dijo que lo dejaramos haci
+igual aqui pongo los nombres del equipo para que no nos perjudique
+*/
 /*
-proyecto equipo 5
+proyecto equipo 5   
 integrantes:
 Devin Alexander Vázquez Alonso 23310138
 Angel Leonardo Vaca Ojeda 23310142
