@@ -9,6 +9,7 @@ Gabriel Pilar Soto 23310116
 */
 #include <stdio.h>
 #include <string.h> //usare esta libreria que permite manejar los strings
+#include <conio.h>
 
 
 
@@ -229,5 +230,6 @@ int main(){
 
     } while (opc != 6);
 
+    getch();
     return 0;
 }
