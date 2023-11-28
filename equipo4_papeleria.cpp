@@ -25,8 +25,17 @@ struct Producto{// se hace la estructura que tendra cada producto (nombre y cant
     float precio;
 };
 
-// funcion para mostrar todos los productos :)
+//funcion para calcular el total
+float calc_total(struct Producto inP[],int n_product){
+    float total=0;
+    for (int i = 0; i < n_product; i++)
+    {
+        total += inP[i].precio;               
+    }
+    return total;
+}
 
+// funcion para mostrar todos los productos :)
 void mostrar_productos(struct Producto inP[],int n_product, char text[50]){
     printf("Esta es la lista de los productos...\n");
     for (int i = 0; i < n_product; i++)
@@ -41,6 +50,8 @@ void mostrar_productos(struct Producto inP[],int n_product, char text[50]){
     printf("\n-----------\n");
     printf("Eliga cual quiere %s:  ",text);
 }
+
+
 
 void mostrar_carrito(struct Producto inP[],int n_product){
     printf("Esta es la lista de tu carrito...\n");
@@ -95,7 +106,8 @@ int main(){
         printf("8) Abrir archivo\n");
         printf("9) Actualizar archivo\n");
         printf("10) Mostrar Carrito\n");
-        printf("11) salir\n\n");
+        printf("11) Mostrar Stok\n");
+        printf("12) salir\n\n");
         printf("Eliga.... : ");
         scanf("%d",&opc);
 
@@ -244,7 +256,7 @@ int main(){
             
             break;
         case 5:
-            //MODIFICARLO PARA ELEGIR SI ELIMINAR DEL CARRITO O DEL STOK
+            
             int opcB;
             printf("desea eliminar producto del carrito o del stock de la tienda??\n");
             printf("1) Stock\n");
@@ -292,24 +304,37 @@ int main(){
                 case 2:
                     //Eliminamos el contenido del carrito
 
-                    if (num_productos > 0)
+                    if (cont_carrito > 0)
                     {
                         int indice_d;
 
-                        mostrar_productos(productos,num_productos,"Eliminar");
+                        mostrar_carrito(Carrito,cont_carrito);
+                        printf("\nCual desea eliminar?: ");
                         scanf("%d",&indice_d);
                         indice_d--;
 
-                        if (indice_d >=0 && indice_d < num_productos){
-                            
-                            for (int i = indice_d; i < num_productos - 1; i++)
+                        //regresamos la cantidad al stok
+
+                        for (int i = 0; i < num_productos; i++)
+                        {
+                            if (strcmp( productos[i].nombre_p , Carrito[indice_d].nombre_p ) == 0) // esta funcion nos permite comparar entre dos strings para hallar coincidencias
                             {
-                                strcpy(productos[i].nombre_p,productos[i+1].nombre_p);//esta funcion permite copiar strings
-                                productos[i].cantidad = productos[i+1].cantidad;
-                                productos[i].precio = productos[i+1].precio;
+                                productos[i].cantidad += Carrito[indice_d].cantidad;
                             }
-                            num_productos--;
-                            printf("\nel producto a sido eliminado...\n");
+                                
+                        }
+
+
+                        if (indice_d >=0 && indice_d < cont_carrito){
+                            
+                            for (int i = indice_d; i < cont_carrito - 1; i++)
+                            {
+                                strcpy(Carrito[i].nombre_p,Carrito[i+1].nombre_p);//esta funcion permite copiar strings
+                                Carrito[i].cantidad = Carrito[i+1].cantidad;
+                                Carrito[i].precio = Carrito[i+1].precio;
+                            }
+                            cont_carrito--;
+                            printf("\nel producto a sido eliminado del carrito...\n");
                         }else{
                             printf("\nEl puesto que usted indico esta fuera de rango...\n");
                         }
@@ -319,6 +344,8 @@ int main(){
                     }
 
                     
+                    break;
+                case 3:
                     break;
                 default:
                     break;
@@ -340,7 +367,7 @@ int main(){
             //Actualizar archivo
             break;
         case 10:
-            //mostrar carrito
+            
             if (cont_carrito>0)
             {
                 mostrar_carrito(Carrito,cont_carrito);
@@ -351,6 +378,19 @@ int main(){
             
             break;
         case 11:
+            printf("Esta es la lista de los productos...\n");
+            for (int i = 0; i < num_productos; i++)
+            {
+                
+                printf("\n-----------\n");
+                printf("%d) %s --> ",i+1,productos[i].nombre_p);
+                printf("%d",productos[i].cantidad);
+                printf(" == $%2.f", productos[i].precio);
+                                
+            }
+            printf("\n-----------\n");
+            break;
+        case 12:
             /*
             al salir te imprime como quedaron los productos al final
             */
@@ -370,7 +410,7 @@ int main(){
             break;
         }
 
-    } while (opc != 11);
+    } while (opc != 12);
 
     getch();
     return 0;
