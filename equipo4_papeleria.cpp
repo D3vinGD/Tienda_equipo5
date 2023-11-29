@@ -300,13 +300,13 @@ int main(){
                     cont_carrito++;
                     
                     productos[indice_b].cantidad -= add;// a la cantidad que ya tenia se le agrego la nueva mercancia
-                    
-                    verfi_exist(productos,num_productos);
 
                     printf("\ncantidad agregada con exito...\n"); 
                     
                     printf("\tpresione cualquier tecla para continuar.....\n");
                     getch();
+
+                    verfi_exist(productos,num_productos);
 
                 }else{
                     printf("\nEl puesto que usted indico esta fuera de rango...\n");
@@ -455,16 +455,15 @@ int main(){
             break;
         case 7:
             // Grabar archivo
-            /*
+            
             FILE *ticket = fopen("ticket.txt","w");
 
             if (ticket == NULL)
             {
                 fprintf(stderr,"No se pudo abrir el archivo");
-
-            
             }
-            */
+            
+            
             break;
         case 8:
             // Abrir archivo
