@@ -19,6 +19,7 @@ Gabriel Pilar Soto 23310116
 
 
 
+
 struct Producto{// se hace la estructura que tendra cada producto (nombre y cantidad)
     char nombre_p[50];
     int cantidad = 0;
@@ -27,12 +28,14 @@ struct Producto{// se hace la estructura que tendra cada producto (nombre y cant
 
 //funcion para calcular el total
 float calc_total(struct Producto inP[],int n_product){
-    float total=0;
+    float total_producto = 0;
+    float total_pagar = 0;
     for (int i = 0; i < n_product; i++)
     {
-        total += inP[i].precio;               
+        total_producto = (inP[i].cantidad) * (inP[i].precio);
+        total_pagar += total_producto;               
     }
-    return total;
+    return total_pagar;
 }
 
 // funcion para mostrar todos los productos :)
@@ -65,6 +68,21 @@ void mostrar_carrito(struct Producto inP[],int n_product){
                     
     }
     printf("\n^^^^^^^^^^^\n");
+    
+}
+
+// verifica si quedan existencias de cualquier producto del stok
+void verfi_exist(struct Producto inP[],int n_product){
+    for (int i = 0; i < n_product; i++)
+    {
+        if (inP[i].cantidad <= 0)
+        {
+            printf("\nEl producto %s se a quedado sin existencias...\nFavor de rellenar el stok...\n",inP[i].nombre_p);
+            getch();
+            break;
+        }
+        
+    }
     
 }
 
@@ -127,6 +145,9 @@ int main(){
                 num_productos++;  //y asi funciona como un indice actualizado
                 printf("\nEl producto se a agregado..\n");
                 
+                printf("\tpresione cualquier tecla para continuar.....\n");
+                getch();
+                
             }else{
                 printf("\nYa no hay espacio!!!!!...\n");//en cado de que este llena la papeleria este no dejara agregar
             }
@@ -150,6 +171,10 @@ int main(){
                         printf("\n____________\nSe encontro el producto!\n");
                         printf("%s --> %d == $%2.f\n_______________\n",productos[i].nombre_p,productos[i].cantidad,productos[i].precio);
                         encontrado = 1; //una ves encontrada una coincidencia la variable se pondra en 1 simulando se un true
+                        
+                        printf("\tpresione cualquier tecla para continuar.....\n");
+                        getch();
+
                         break;
                     }
                     
@@ -157,11 +182,17 @@ int main(){
                 if (!encontrado)
                 {
                     printf("\nProducto no encontrado...\n");//en caso de no haber encontrado coincidencias este dira esto
+                    
+                    printf("\tpresione cualquier tecla para continuar.....\n");
+                    getch();
                 }
                 
                 
             }else{
                 printf("\nNo hay productos que buscar...\n");//en caso de no haber elementos
+                
+                printf("\tpresione cualquier tecla para continuar.....\n");
+                getch();
             }
             
             break;
@@ -187,13 +218,22 @@ int main(){
                     printf("Precio actual: ");
                     scanf("%f",&productos[indice].precio);
                     printf("\nProducto Actualizado....\n");
+
+                    verfi_exist(productos,num_productos);
+
                 }else{
                     printf("\nEl puesto que usted indico esta fuera de rango...\n");//en caso de que no
+
+                    printf("\tpresione cualquier tecla para continuar.....\n");
+                    getch();
                 }
                 
 
             }else{
                 printf("\nNo hay productos que Actualizar\n");//si no hay elementos no se podra actualizar
+
+                printf("\tpresione cualquier tecla para continuar.....\n");
+                getch();
             }
             
             break;
@@ -211,6 +251,10 @@ int main(){
                 if (indice_b < 0)
                 {
                     printf("\nvalor incorrecto\n");
+                    
+                    printf("\tpresione cualquier tecla para continuar.....\n");
+                    getch();
+
                     break;
                 }
                 
@@ -219,6 +263,10 @@ int main(){
                 if (productos[indice_b].cantidad <= 0)
                 {
                     printf("\nNo quedan suficientes productos en stok lo sentimos :(\n");
+
+                    printf("\tpresione cualquier tecla para continuar.....\n");
+                    getch();
+
                     break;
                 }
                 
@@ -230,10 +278,18 @@ int main(){
                     if (add < 0)
                     {
                         printf("\nvalor incorrecto...\n");
+                        
+                        printf("\tpresione cualquier tecla para continuar.....\n");
+                        getch();
+
                         break;
                     }else if (add > productos[indice_b].cantidad)
                     {
                         printf("\nNo hay suficientes productos para agregarlos a su carrito\n");
+                        
+                        printf("\tpresione cualquier tecla para continuar.....\n");
+                        getch();
+                        
                         break;
                     }
                     
@@ -244,14 +300,25 @@ int main(){
                     cont_carrito++;
                     
                     productos[indice_b].cantidad -= add;// a la cantidad que ya tenia se le agrego la nueva mercancia
+                    
+                    verfi_exist(productos,num_productos);
 
                     printf("\ncantidad agregada con exito...\n"); 
+                    
+                    printf("\tpresione cualquier tecla para continuar.....\n");
+                    getch();
 
                 }else{
                     printf("\nEl puesto que usted indico esta fuera de rango...\n");
+                    
+                    printf("\tpresione cualquier tecla para continuar.....\n");
+                    getch();
                 }
             }else{
                 printf("\nNo hay Productos para agregar....\n");
+
+                printf("\tpresione cualquier tecla para continuar.....\n");
+                getch();
             }
             
             break;
@@ -292,12 +359,22 @@ int main(){
                             }
                             num_productos--;
                             printf("\nel producto a sido eliminado...\n");
+
+                            printf("\tpresione cualquier tecla para continuar.....\n");
+                            getch();
+
                         }else{
                             printf("\nEl puesto que usted indico esta fuera de rango...\n");
+
+                            printf("\tpresione cualquier tecla para continuar.....\n");
+                            getch();
                         }
                         
                     }else{
                         printf("\nno hay productos que eliminar...\n");
+                        
+                        printf("\tpresione cualquier tecla para continuar.....\n");
+                        getch();
                     }
 
                     break;
@@ -335,12 +412,21 @@ int main(){
                             }
                             cont_carrito--;
                             printf("\nel producto a sido eliminado del carrito...\n");
+
+                            printf("\tpresione cualquier tecla para continuar.....\n");
+                            getch();
                         }else{
                             printf("\nEl puesto que usted indico esta fuera de rango...\n");
+                            
+                            printf("\tpresione cualquier tecla para continuar.....\n");
+                            getch();
                         }
                         
                     }else{
                         printf("\nno hay productos que eliminar...\n");
+                        
+                        printf("\tpresione cualquier tecla para continuar.....\n");
+                        getch();
                     }
 
                     
@@ -356,9 +442,29 @@ int main(){
             
         case 6:
             //CALCULAR EL TOTAL A PAGAR
+            if (cont_carrito <= 0)
+            {
+                printf("\nNo tienes productos en el carrito puedes irte de aqui\n");
+                break;
+            }
+            printf("\nel total a pagar es de: $%2.f\n",calc_total(Carrito,cont_carrito));
+            
+            printf("\tpresione cualquier tecla para continuar.....\n");
+            getch();
+
             break;
         case 7:
             // Grabar archivo
+            /*
+            FILE *ticket = fopen("ticket.txt","w");
+
+            if (ticket == NULL)
+            {
+                fprintf(stderr,"No se pudo abrir el archivo");
+
+            
+            }
+            */
             break;
         case 8:
             // Abrir archivo
