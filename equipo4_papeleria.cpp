@@ -85,6 +85,22 @@ void verfi_exist(struct Producto inP[],int n_product){
     }
     
 }
+void creditos(){
+    printf("\n\t\t------ CREDITOS ------\n\n");
+    printf("\tPROYECTO:  PAPELERIA LAS VACAS\n\n");
+    printf("este programa sirve para llevar a cabo el inventario de una papeleria\n");
+    printf("aqui podras manejar el inventario de esta asi como los cobros que se les hace\n");
+    printf("a los clientes, todos estos datos pueden ser plasmados en un archivo de texto para\n");
+    printf("poder cargarlos sin que se pierdan los datos de cada producto.\n");
+    printf("\tINTEGRANTES:\n\n");
+    printf("Devin Alexander Vázquez Alonso 23310138\n");
+    printf("Angel Leonardo Vaca Ojeda 23310142\n");
+    printf("Juan Carlos Estrada Arriaga 23310106\n");
+    printf("Christian Alexis Rosario Gálvez 23310134\n");
+    printf("Gabriel Pilar Soto 23310116\n\n");
+    printf("\t1er semestre, grupo O\n\n");
+    printf("\t\t----------------------\n");
+}
 
 int main(){
 
@@ -95,25 +111,10 @@ int main(){
 
 
     //vemos cuanto sera el maximo de productos de la papeleria
-    int espacio_papeleria;
-
-    printf("ingrese para cuantos productos tiene espacio en la papeleria: ");
-    scanf("%d",&espacio_papeleria);
+    int espacio_papeleria = 50;
 
     FILE *archivo;
-    archivo = fopen("stok.txt","r");
-    if (archivo == NULL)
-    {
-        fprintf(stderr,"No se pudo abrir el archivo");
-    }
-
-    int cont_lineas = 0;
-    while (fscanf(archivo,"%s %d %f\n") == 1)
-    {
-        cont_lineas++;
-    }
-    espacio_papeleria = cont_lineas;
-    fclose(archivo);
+    
 
     //llevaremos a cabo el menu de opciones
     int opc;
@@ -503,32 +504,56 @@ int main(){
             break;
         case 8:
             // Abrir archivo
-            printf("hola");
-            archivo = fopen("stok.txt","r");
-            
+            archivo = fopen("stok.txt", "r");
+
+            if (archivo == NULL)
+            {
+                fprintf(stderr, "No se pudo abrir el archivo");
+            }
+            else
+            {
+                int cont_lineas = 0;
+                //vamos almacenando los valores del txt a la lista de productos
+                while (fscanf(archivo, "%s %d %f\n", productos[cont_lineas].nombre_p, &productos[cont_lineas].cantidad, &productos[cont_lineas].precio) == 3)
+                {
+                    cont_lineas++;
+                }
+
+                // No necesitas otro bucle para leer los datos, ya lo hiciste en el bucle while
+
+                fclose(archivo);
+
+                // Actualiza el número de productos después de leer del archivo
+                num_productos = cont_lineas;
+            }
+            printf("\nDatos extraidos con exito\n");
+            printf("\tpresione cualquier tecla para continuar.....\n");
+            getch();
+
+            break;
+        case 9:
+            //Actualizar archivo
+            archivo = fopen("stok.txt","w");
+
             if (archivo == NULL)
             {
                 fprintf(stderr,"No se pudo abrir el archivo");
             }
 
-            char nombre_t[50];
-            int cantidad_t;
-            float precio_t;
+            //empezamos a imprimir todos los datos de los productos en el archivo
             
-            num_productos = cont_lineas;
-            for (int i = 0; feof(archivo); ++i) {
-                fscanf(archivo,"%s%d%f",&nombre_t,&cantidad_t,&precio_t);
-                printf("%s %d %f",nombre_t,cantidad_t,precio_t);
-                strcpy(productos[i].nombre_p,nombre_t);
-                productos[i].cantidad = cantidad_t;
-                productos[i].precio = precio_t;
+            for (int i = 0; i < num_productos; i++)
+            {
+                fprintf(archivo,"%s %d %f\n",productos[i].nombre_p,productos[i].cantidad,productos[i].precio);
+                
             }
-            fclose(archivo);
-            
 
-            break;
-        case 9:
-            //Actualizar archivo
+            printf("\ndatos actualizados con exito....\n");
+            
+            printf("\tpresione cualquier tecla para continuar.....\n");
+            getch();
+
+            fclose(archivo);
             break;
         case 10:
             
@@ -553,20 +578,13 @@ int main(){
                                 
             }
             printf("\n-----------\n");
+            
+            printf("\tpresione cualquier tecla para continuar.....\n");
+            getch();
+
             break;
         case 12:
-            /*
-            al salir te imprime como quedaron los productos al final
-            */
-            printf("\n___________________________________\n\nEstos son los productos finales");
-                for (int i = 0; i < num_productos; i++)
-                {
-                    printf("\n_________\n");
-                    printf("%s --> ",productos[i].nombre_p);
-                    printf("%d == $%2.f",productos[i].cantidad,productos[i].precio);
-                    
-                    }
-            printf("\n_________\n");
+            creditos();
             printf("\nsaliendo.... (presione cualquier tecla para salir)");
             break;
         default:
@@ -579,3 +597,5 @@ int main(){
     getch();
     return 0;
 }
+
+
