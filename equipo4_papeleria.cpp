@@ -99,6 +99,22 @@ int main(){
 
     printf("ingrese para cuantos productos tiene espacio en la papeleria: ");
     scanf("%d",&espacio_papeleria);
+
+    FILE *archivo;
+    archivo = fopen("stok.txt","r");
+    if (archivo == NULL)
+    {
+        fprintf(stderr,"No se pudo abrir el archivo");
+    }
+
+    int cont_lineas = 0;
+    while (fscanf(archivo,"%s %d %f\n") == 1)
+    {
+        cont_lineas++;
+    }
+    espacio_papeleria = cont_lineas;
+    fclose(archivo);
+
     //llevaremos a cabo el menu de opciones
     int opc;
 
@@ -109,6 +125,8 @@ int main(){
     struct Producto Carrito[espacio_papeleria];//arreglo del carrito
     int cont_carrito = 0;
     
+    
+
 
     do //se utiliza un do-while para que se repita hasta que el usuario desida salir
     {
@@ -150,6 +168,9 @@ int main(){
                 
             }else{
                 printf("\nYa no hay espacio!!!!!...\n");//en cado de que este llena la papeleria este no dejara agregar
+                
+                printf("\tpresione cualquier tecla para continuar.....\n");
+                getch();
             }
             
             break;
@@ -456,17 +477,55 @@ int main(){
         case 7:
             // Grabar archivo
             
-            FILE *ticket = fopen("ticket.txt","w");
+            archivo = fopen("stok.txt","w");
 
-            if (ticket == NULL)
+            if (archivo == NULL)
             {
                 fprintf(stderr,"No se pudo abrir el archivo");
             }
+
+            //empezamos a imprimir todos los datos de los productos en el archivo
+            
+            for (int i = 0; i < num_productos; i++)
+            {
+                fprintf(archivo,"%s %d %f\n",productos[i].nombre_p,productos[i].cantidad,productos[i].precio);
+                
+            }
+
+            printf("\ndatos guardados con exito....\n");
+            
+            printf("\tpresione cualquier tecla para continuar.....\n");
+            getch();
+
+            fclose(archivo);
             
             
             break;
         case 8:
             // Abrir archivo
+            printf("hola");
+            archivo = fopen("stok.txt","r");
+            
+            if (archivo == NULL)
+            {
+                fprintf(stderr,"No se pudo abrir el archivo");
+            }
+
+            char nombre_t[50];
+            int cantidad_t;
+            float precio_t;
+            
+            num_productos = cont_lineas;
+            for (int i = 0; feof(archivo); ++i) {
+                fscanf(archivo,"%s%d%f",&nombre_t,&cantidad_t,&precio_t);
+                printf("%s %d %f",nombre_t,cantidad_t,precio_t);
+                strcpy(productos[i].nombre_p,nombre_t);
+                productos[i].cantidad = cantidad_t;
+                productos[i].precio = precio_t;
+            }
+            fclose(archivo);
+            
+
             break;
         case 9:
             //Actualizar archivo
